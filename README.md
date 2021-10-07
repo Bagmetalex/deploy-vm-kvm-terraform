@@ -25,7 +25,7 @@ qemu-img resize $default_pool_images/$terraform_image +32G
 ```
 И увеличим размер диска внутри виртуального диска Внимание для выполнения этих команд в вашем образе должны  быть утилиты **qemu-guest-agent, growpart, xfs_growfs а так же файловая система корня должна быть xfs **
 ```
-virt-sysprep -a $default_pool_images/$terraform_image --run-command 'growpart /dev/sda 1 ; xfs_growfs / -d'
+virt-sysprep -a $default_pool_images/$terraform_image --run-command 'growpart /dev/sda 1; xfs_growfs / -d'
 ```
 
 ## Как использовать
