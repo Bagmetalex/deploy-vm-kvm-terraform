@@ -29,8 +29,8 @@ virt-sysprep -a $default_pool_images/$terraform_image --run-command 'growpart /d
 ```
 
 ## Как использовать
-```
 Сначала копируем terraform.tfvars и изменим его
+```
 cp terraform.tfvars.simple terraform.tfvars
 vi terraform.tfvars
 ```
@@ -41,6 +41,6 @@ terraform plan
 terraform apply
 ```
 
-
 Полезные ссылки:
 https://serveradmin.ru/rasshirenie-uvelichenie-xfs-kornevogo-razdela-bez-ostanovki/
+https://timeweb.com/ru/help/pages/viewpage.action?pageId=27918911
