@@ -1,6 +1,6 @@
 # deploy-vm-kvm-terraform
 Этот проект посвящен деплою виртуальных машин через libvirt плагин terraform, с использованием статической ip адресации внутри kvm( организовано на базе связи уникального mac адреса и присваемаемого ему ip) посмотреть текущий конфиг сети default в kvm можно **virsh net-edit default**
-# Предварительная подготовка образа для комфортной работы
+## Предварительная подготовка образа для комфортной работы
 Добавим env переменные
 ```
 export default_pool_images=$(echo $(virsh pool-dumpxml default|grep -oP '(?<path>)(/.*?)(?=</path>)'))
@@ -41,6 +41,7 @@ terraform plan
 terraform apply
 ```
 
-Полезные ссылки:
-https://serveradmin.ru/rasshirenie-uvelichenie-xfs-kornevogo-razdela-bez-ostanovki/
-https://timeweb.com/ru/help/pages/viewpage.action?pageId=27918911
+## Полезные ссылки:
+- Используемый терраформ провайдер - https://github.com/dmacvicar/terraform-provider-libvirt
+- Изменение размера через growpart https://serveradmin.ru/rasshirenie-uvelichenie-xfs-kornevogo-razdela-bez-ostanovki/
+- Установка qemu агента https://timeweb.com/ru/help/pages/viewpage.action?pageId=27918911
