@@ -1,25 +1,31 @@
 # deploy-vm-kvm-terraform
 Этот проект посвящен деплою виртуальных машин через libvirt плагин terraform, с использованием статической ip адресации внутри kvm( организовано на базе связи уникального mac адреса и присваемаемого ему ip) посмотреть текущий конфиг сети default в kvm можно **virsh net-edit default**
 # Предварительная подготовка образа для комфортной работы
-Подготавливаем образ -который будем использовать как базовый при развертываниях в terraform
+Добавим env переменные
 ```
-wget -c http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2 -O terra-centos7.qcow2
+export default_pool_images=$(echo $(virsh pool-dumpxml default|grep -oP '(?<path>)(/.*?)(?=</path>)'))
+export terraform_image=terra-centos7.qcow2
+echo $default_pool_images/$terraform_image
 ```
-Сменим пароль  от пользователя root ( что бы команда virt-sysprep работала  нужно что бы в нутри образа был установлен qemu-guest-agent )
+Подготавливаем образ -который будем использовать как базовый при развертываниях в terraform. Сначала его необходимо скачать в storage pool вашего гипервизора - можно это сделать такой командой:
 ```
-sudo virt-sysprep -a "./terra-centos7.qcow2" --root-password password:ВАШ_ПАРОЛЬ
+wget -c http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2 -O $default_pool_images/$terraform_image
+```
+Сменим пароль от пользователя root ( что бы команда virt-sysprep работала  нужно что бы в нутри образа был установлен qemu-guest-agent )
+```
+sudo virt-sysprep -a $default_pool_images/$terraform_image --root-password password:ВАШ_ПАРОЛЬ
 ```
 Посмотрим его обьем
 ```
-qemu-img info ./terra-centos7.qcow2
+qemu-img info $default_pool_images/$terraform_image
 ```
 Увеличим его обьем
 ```
-qemu-img resize /home/vm/terra-centos7.qcow2 +32G
+qemu-img resize $default_pool_images/$terraform_image +32G
 ```
-#и увеличим размер диска внутри виртуального диска (источник https://serveradmin.ru/rasshirenie-uvelichenie-xfs-kornevogo-razdela-bez-ostanovki/ )
+И увеличим размер диска внутри виртуального диска Внимание для выполнения этих команд в вашем образе должны  быть утилиты **qemu-guest-agent, growpart, xfs_growfs а так же файловая система корня должна быть xfs **
 ```
-virt-sysprep -a /home/vm/terra-centos7.qcow2 --run-command 'growpart /dev/sda 1 ; xfs_growfs / -d'
+virt-sysprep -a $default_pool_images/$terraform_image --run-command 'growpart /dev/sda 1 ; xfs_growfs / -d'
 ```
 
 ## Как использовать
@@ -34,3 +40,7 @@ terraform init
 terraform plan
 terraform apply
 ```
+
+
+Полезные ссылки:
+https://serveradmin.ru/rasshirenie-uvelichenie-xfs-kornevogo-razdela-bez-ostanovki/
