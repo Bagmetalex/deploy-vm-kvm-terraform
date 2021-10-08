@@ -15,7 +15,7 @@ wget -c http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qco
 ```
 sudo virt-sysprep -a $default_pool_images/$terraform_image --root-password password:ВАШ_ПАРОЛЬ
 ```
-Посмотрим его обьем
+Посмотрим его обьем до 40 гигов
 ```
 qemu-img info $default_pool_images/$terraform_image
 ```
