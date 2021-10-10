@@ -46,7 +46,8 @@ resource "libvirt_domain" "vm_domain" {
   }
 
   disk {
-    volume_id = libvirt_volume.os_volume[0].id
+    #count = length(var.hostname)
+    volume_id = libvirt_volume.os_volume[count.index].id
   }
 
 #   disk {
