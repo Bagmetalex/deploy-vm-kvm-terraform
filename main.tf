@@ -20,7 +20,7 @@ resource "libvirt_volume" "os_volume" {
   name = "${var.hostname[count.index]}.qcow2"
   pool = "default"
   #source = "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
-  source = "/home/vm/terra-centos7.qcow2"
+  source = "/var/lib/libvirt/images/terra-centos7.qcow2"
   format = "qcow2"
 }
 
