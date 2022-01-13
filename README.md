@@ -11,7 +11,7 @@ echo $default_pool_images/$terraform_image
 ```
 wget -c http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2 -O $default_pool_images/$terraform_image
 ```
-Сменим пароль от пользователя root ( что бы команда virt-sysprep работала  нужно что бы в нутри образа был установлен qemu-guest-agent )
+Сменим пароль от пользователя root ( что бы команда virt-sysprep работала  нужно что бы в нутри образа был установлен qemu-guest-agent и сам он был установлен "yum install /usr/bin/virt-sysprep")
 ```
 sudo virt-sysprep -a $default_pool_images/$terraform_image --root-password password:ВАШ_ПАРОЛЬ
 ```
